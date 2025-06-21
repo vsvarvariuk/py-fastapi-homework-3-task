@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Optional
 from enum import Enum
 import re
+from database.validators.accounts import validate_password_strength
 
 
 class UserGroupEnum(str, Enum):
@@ -19,19 +20,12 @@ class UserRegistrationRequestSchema(UserBase):
 
     @field_validator("password")
     def validate_password(cls, value):
-        if len(value) < 8:
-            raise ValueError("Password must contain at least 8 characters.")
-        if not re.search(r"[A-Z]", value):
-            raise ValueError("Password must contain at least one uppercase letter.")
-        if not re.search(r"[a-z]", value):
-            raise ValueError("Password must contain at least one lower letter.")
-        if not re.search(r"\d", value):
-            raise ValueError("Password must contain at least one digit.")
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", value):
-            raise ValueError(
-                "Password must contain at least one special character: @, $, !, %, *, ?, #, &."
-            )
-        return value
+        return validate_password_strength(value)
+        
+
+
+class UserLoginSchema(UserBase):
+    password: str
 
 
 class PasswordResetCompletionRequest(UserRegistrationRequestSchema):

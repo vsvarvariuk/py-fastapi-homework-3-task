@@ -22,6 +22,7 @@ from exceptions import BaseSecurityError
 from security.interfaces import JWTAuthManagerInterface
 
 from schemas.accounts import (
+    UserLoginSchema,
     UserRegistrationRequestSchema,
     UserSimpleRead,
     UserActivationToken,
@@ -209,7 +210,7 @@ async def reset_password_complete(
 
 @router.post("/login/", status_code=201)
 async def generate_jwt_token(
-    data: UserRegistrationRequestSchema,
+    data: UserLoginSchema,
     db: AsyncSession = Depends(get_db),
     jwt_manager: JWTAuthManagerInterface = Depends(get_jwt_auth_manager),
     settings: BaseAppSettings = Depends(get_settings),
