@@ -154,14 +154,11 @@ class UserProfileModel(Base):
     )
     user: Mapped[UserModel] = relationship("UserModel", back_populates="profile")
 
-   
-
     def __repr__(self):
         return (
             f"<UserProfileModel(id={self.id}, first_name={self.first_name}, last_name={self.last_name}, "
             f"gender={self.gender}, date_of_birth={self.date_of_birth})>"
         )
-
 
 
 class TokenBaseModel(Base):

@@ -21,7 +21,6 @@ class UserRegistrationRequestSchema(UserBase):
     @field_validator("password")
     def validate_password(cls, value):
         return validate_password_strength(value)
-        
 
 
 class UserLoginSchema(UserBase):
